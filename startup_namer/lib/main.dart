@@ -8,33 +8,55 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Startup Name Generator",
+      title: "Title",
       home: RandomWords(),
-      theme: ThemeData(
-        primaryColor: Colors.white
-      ),
+      theme: ThemeData(primaryColor: Colors.white),
     );
   }
 }
 
 class RandomWords extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => RandomWordsState();
+  State<StatefulWidget> createState() => _RandomWordsState();
 }
 
-class RandomWordsState extends State<RandomWords> {
+class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
 
   final _saved = Set<WordPair>();
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
+  @override
+  void initState() {
+    super.initState();
+    print("---------> initState");
+  }
+
+  @override
+  void didUpdateWidget(RandomWords oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("---------> didUpdateWidget");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("---------> dispose");
+  }
+
   // Override
   @override
   Widget build(BuildContext context) {
+    print("---------> state build");
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
+        leading: IconButton(
+          icon: Icon(Icons.search),
+          tooltip: "Search",
+          onPressed: null,
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.list),
@@ -76,6 +98,7 @@ class RandomWordsState extends State<RandomWords> {
       ),
       onTap: () {
         setState(() {
+          print("---------> setState");
           if (alreadySaved) {
             _saved.remove(pair);
           } else {
@@ -85,25 +108,20 @@ class RandomWordsState extends State<RandomWords> {
       },
     );
   }
-
+  
   void _pushSaved() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      final tiles = _saved.map(
-        (pair) {
-          return ListTile(
+      final tiles = _saved.map((WordPair pair) {
+        return ListTile(
             title: Text(
-              pair.asPascalCase,
-              style: _biggerFont
-            )
-          );
-        }
-      );
+          pair.asPascalCase,
+          style: _biggerFont,
+        ));
+      });
 
-      final divided = ListTile.divideTiles(
-        context: context,
-        tiles: tiles
-      ).toList();
-
+      final divided =
+          ListTile.divideTiles(context: context, tiles: tiles).toList();
+      
       return Scaffold(
         appBar: AppBar(
           title: Text("Saved Suggestions"),
