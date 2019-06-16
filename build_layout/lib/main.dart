@@ -93,7 +93,7 @@ class TitleContainer extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Kandersteg, Switzerland",
+                    "Kandersteg, SwitzerlandKandersteg, SwitzerlandKandersteg, SwitzerlandKandersteg, Switzerland",
                     style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.normal
