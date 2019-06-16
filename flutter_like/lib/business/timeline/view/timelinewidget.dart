@@ -4,11 +4,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_like/business/timeline/viewmodel/timelineviewmodel.dart';
 import 'package:flutter_like/business/timeline/model/timelinepropertykeys.dart';
 
+const String kTimelinePictureHeroTag = "kTimelinePictureHeroTag";
+
 class TimelineWidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return TimelineHomePage();
-  }
+  Widget build(BuildContext context) => TimelineHomePage();
 }
 
 class TimelineHomePage extends StatefulWidget {
@@ -138,11 +138,7 @@ class TimelineHomePageState extends State<TimelineHomePage> {
     // print("---------> $retweetContent \n");
 
     final contentWidget = Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.green
-        )
-      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.green)),
       alignment: AlignmentDirectional.topStart,
       margin: const EdgeInsets.only(top: 6.0, left: 6.0, right: 6.0),
       child: Text.rich(TextSpan(children: <TextSpan>[
@@ -201,16 +197,25 @@ class TimelineHomePageState extends State<TimelineHomePage> {
       var y = (i / numberInRow).floor() * (itemHeight + padding);
 
       Container container = Container(
-        width: itemWidth,
-        height: itemHeight,
-        margin: EdgeInsets.only(left: x, top: y),
-        child: Image.network(
-          pictures[i][kPicturePropertyKeyMetadataBMiddle]
-              [kPictureMetadataKeyUrl],
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
-        ),
-      );
+          width: itemWidth,
+          height: itemHeight,
+          margin: EdgeInsets.only(left: x, top: y),
+          child: InkWell(
+            child: Hero(
+              tag: kTimelinePictureHeroTag + pictures[i][kPicturePropertyKeyID],
+              child: Image.network(
+                pictures[i][kPicturePropertyKeyMetadataBMiddle]
+                    [kPictureMetadataKeyUrl],
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return PictureBrowseWidget(pictures, i);
+              }));
+            },
+          ));
 
       picWidgets.add(container);
     }
@@ -228,5 +233,37 @@ class TimelineHomePageState extends State<TimelineHomePage> {
     );
 
     return container;
+  }
+}
+
+class PictureBrowseWidget extends StatelessWidget {
+  PictureBrowseWidget(this.pictures, this.index);
+
+  final List<Map<String, dynamic>> pictures;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    print("screen size:[$screenSize]");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("查看大图"),
+      ),
+      body: Container(
+        width: screenSize.width,
+        height: screenSize.height,
+        margin: EdgeInsets.all(0.0),
+        child: Hero(
+          tag: kTimelinePictureHeroTag + pictures[index][kPicturePropertyKeyID],
+          child: Image.network(
+            this.pictures[index][kPicturePropertyKeyMetadataLarge]
+                [kPictureMetadataKeyUrl],
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
+        ),
+      ),
+    );
   }
 }
