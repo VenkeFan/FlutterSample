@@ -208,6 +208,7 @@ class TimelineHomePageState extends State<TimelineHomePage> {
           pictures[i][kPicturePropertyKeyMetadataBMiddle]
               [kPictureMetadataKeyUrl],
           fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
         ),
       );
 
