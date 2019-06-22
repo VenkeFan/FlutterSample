@@ -257,56 +257,56 @@ class PictureBrowseWidget extends StatelessWidget {
     }
     final newHeight = height / width * screenSize.width;
 
-    final containerTop = screenSize.height > newHeight ? (screenSize.height - newHeight) * 0.5 : 0.0;
+    final containerTop = screenSize.height > newHeight
+        ? (screenSize.height - newHeight) * 0.5
+        : 0.0;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("查看大图"),
-      //   backgroundColor: Colors.transparent,
-      // ),
-      body: InkWell(
+        body: InkWell(
         onTap: () {
           Navigator.of(context).maybePop();
         },
         child: Container(
-          color: Colors.black,
+          color: Colors.red,
           width: screenSize.width,
           height: newHeight,
           margin: EdgeInsets.only(left: 0.0, right: 0.0, top: containerTop),
           child: Hero(
             tag: kTimelinePictureHeroTag + pictures[index][kPicturePropertyKeyID],
-            child: Image.network(picInfo[kPictureMetadataKeyUrl],
-              width: screenSize.width,
-              height: newHeight,
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.center,
-            ),
+            child: _buildHeroChild2(picInfo[kPictureMetadataKeyUrl], screenSize.width, newHeight),
           ),
         ),
       )
-
-
-      // body: _buildCustomAppBar(context),
     );
   }
 
-  // @pragma("Private")
-  // Widget _buildCustomAppBar(BuildContext context) {
-  //   final Size screenSize = MediaQuery.of(context).size;
+  Widget _buildHeroChild(String picUrl, double width, double height) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+        color: Colors.red,
+        width: 2.0,
+      )),
+      child: _buildImage(picUrl, width, height),
+    );
+  }
 
-  //   return Container(
-  //     width: screenSize.width,
-  //     height: 88.0,
-  //     color: Colors.red,
-  //     child: Row(
-  //       children: <Widget>[
-  //         BackButton(),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildHeroChild2(String picUrl, double width, double height) {
+    return ListView(
+      padding: EdgeInsets.all(0.0),
+      children: <Widget>[
+        _buildImage(picUrl, width, height),
+      ],
+    );
+  }
 
-  // Widget _buildCustomBody() {
-  //   return null;
-  // }
+  Widget _buildImage(String picUrl, double width, double height) {
+    return Image.network(
+        picUrl,
+        width: width,
+        height: height,
+        fit: BoxFit.fitWidth,
+        alignment: Alignment.center,
+      );
+  }
 }
