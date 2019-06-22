@@ -292,11 +292,8 @@ class PictureBrowseWidget extends StatelessWidget {
   }
 
   Widget _buildHeroChild2(String picUrl, double width, double height) {
-    return ListView(
-      padding: EdgeInsets.all(0.0),
-      children: <Widget>[
-        _buildImage(picUrl, width, height),
-      ],
+    return SingleChildScrollView(
+      child: _buildImage(picUrl, width, height),
     );
   }
 
