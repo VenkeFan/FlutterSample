@@ -244,26 +244,69 @@ class PictureBrowseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final picInfo = this.pictures[index][kPicturePropertyKeyMetadataLarge];
     final Size screenSize = MediaQuery.of(context).size;
-    print("screen size:[$screenSize]");
+
+    var width = picInfo[kPictureMetadataKeyWidth];
+    var height = picInfo[kPictureMetadataKeyHeight];
+    try {
+      width = int.tryParse(picInfo[kPictureMetadataKeyWidth]);
+      height = int.tryParse(picInfo[kPictureMetadataKeyHeight]);
+    } catch (e) {
+      print("!!!!!!!!!!!!!!!!!!!! Exception: $e");
+    }
+    final newHeight = height / width * screenSize.width;
+
+    final containerTop = screenSize.height > newHeight ? (screenSize.height - newHeight) * 0.5 : 0.0;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("查看大图"),
-      ),
-      body: Container(
-        width: screenSize.width,
-        height: screenSize.height,
-        margin: EdgeInsets.all(0.0),
-        child: Hero(
-          tag: kTimelinePictureHeroTag + pictures[index][kPicturePropertyKeyID],
-          child: Image.network(
-            this.pictures[index][kPicturePropertyKeyMetadataLarge]
-                [kPictureMetadataKeyUrl],
-            fit: BoxFit.cover,
-            alignment: Alignment.center,
+      // appBar: AppBar(
+      //   title: Text("查看大图"),
+      //   backgroundColor: Colors.transparent,
+      // ),
+      body: InkWell(
+        onTap: () {
+          Navigator.of(context).maybePop();
+        },
+        child: Container(
+          color: Colors.black,
+          width: screenSize.width,
+          height: newHeight,
+          margin: EdgeInsets.only(left: 0.0, right: 0.0, top: containerTop),
+          child: Hero(
+            tag: kTimelinePictureHeroTag + pictures[index][kPicturePropertyKeyID],
+            child: Image.network(picInfo[kPictureMetadataKeyUrl],
+              width: screenSize.width,
+              height: newHeight,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.center,
+            ),
           ),
         ),
-      ),
+      )
+
+
+      // body: _buildCustomAppBar(context),
     );
   }
+
+  // @pragma("Private")
+  // Widget _buildCustomAppBar(BuildContext context) {
+  //   final Size screenSize = MediaQuery.of(context).size;
+
+  //   return Container(
+  //     width: screenSize.width,
+  //     height: 88.0,
+  //     color: Colors.red,
+  //     child: Row(
+  //       children: <Widget>[
+  //         BackButton(),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildCustomBody() {
+  //   return null;
+  // }
 }
