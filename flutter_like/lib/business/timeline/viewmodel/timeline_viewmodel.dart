@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_like/service/network/httprequest.dart';
-import 'package:flutter_like/business/timeline/model/timelinepropertykeys.dart';
+import 'package:flutter_like/business/timeline/model/timeline_propertykeys.dart';
 // import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';

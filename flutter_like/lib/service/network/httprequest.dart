@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 
-typedef void RequestFinishedCallBack(Map<String, dynamic> responseObject, String errorInfo);
+// typedef void RequestFinishedCallBack(Map<String, dynamic> responseObject, String errorInfo);
+typedef RequestFinishedCallBack = void Function(Map<String, dynamic> responseObject, String errorInfo); // 两种方式等价
 
 class BasicRequest {
   requsetDiscovery(RequestFinishedCallBack finished) async {

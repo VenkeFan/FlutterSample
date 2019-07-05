@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_like/business/timeline/viewmodel/timelineviewmodel.dart';
-import 'package:flutter_like/business/timeline/model/timelinepropertykeys.dart';
+import 'package:flutter_like/business/timeline/viewmodel/timeline_viewmodel.dart';
+import 'package:flutter_like/business/timeline/model/timeline_propertykeys.dart';
 
 const String kTimelinePictureHeroTag = "kTimelinePictureHeroTag";
 
