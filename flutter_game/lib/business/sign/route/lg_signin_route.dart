@@ -4,11 +4,35 @@ import 'package:flutter_game/utility/window_utility.dart';
 import '../management/lg_signflow_manager.dart';
 import '../../common_ui/lg_ui_config.dart';
 
+enum DialogDemoAction {
+  cancel,
+  discard,
+  disagree,
+  agree,
+}
+
 class LGSignInRoute extends StatelessWidget {
+  final GlobalKey<FormFieldState<String>> _accountFieldKey = GlobalKey(debugLabel: 'accountFieldKey'); // GlobalKey<FormFieldState<String>>();
+  final GlobalKey<FormFieldState<String>> _pwdFieldKey = GlobalKey(debugLabel: 'pwdFieldKey'); // GlobalKey<FormFieldState<String>>();
+
   final fieldTxtStyle = TextStyle(
     color: kNameFontColor,
     fontSize: kFieldFontSize,
   );
+
+  void showDemoDialog<T>({ BuildContext context, Widget child }) {
+    showDialog<T>(
+      context: context,
+      builder: (BuildContext context) => child,
+    )
+    .then<void>((T value) { // The value passed to Navigator.pop() or null.
+      if (value != null) {
+        // _scaffoldKey.currentState.showSnackBar(SnackBar(
+        //   content: Text('You selected: $value'),
+        // ));
+      }
+    });
+  }
 
   @pragma('Events')
   void _forgetBtnPressed() {
@@ -16,9 +40,15 @@ class LGSignInRoute extends StatelessWidget {
   }
 
   void _signInBtnPressed() {
-    print('_signInBtnPressed');
-    // LGSignFlowManager flowManager = LGSignFlowManager();
-    // flowManager.signIn("18701147885", "000000");
+    final FormFieldState<String> accountField = _accountFieldKey.currentState;
+    final FormFieldState<String> pwdField = _pwdFieldKey.currentState;
+
+    if (!accountField.validate() || !pwdField.validate()) {
+      return;
+    } 
+
+    LGSignFlowManager flowManager = LGSignFlowManager();
+    flowManager.signIn(accountField.value, pwdField.value);
   }
   
   void _signUpBtnPressed() {
@@ -31,11 +61,14 @@ class LGSignInRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle dialogTextStyle = theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
+    
     FQWindowUtility.initialize(context);
     final screenWidth = FQWindowUtility.instance().screenWidth;
     final screenHeight = FQWindowUtility.instance().screenHeight;
 
-    final x = 28.0, y = screenHeight * 0.5 - 50.0;
+    final x = 28.0, y = 83.0; // screenHeight * 0.5 - 150.0;
     final width = screenWidth - x * 2;
 
     return Scaffold(
@@ -53,10 +86,47 @@ class LGSignInRoute extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextFormField(
+                key: _accountFieldKey,
                 style: fieldTxtStyle,
                 cursorColor: kNameFontColor,
                 textCapitalization: TextCapitalization.characters,
-                obscureText: true,
+                validator: (String value) {
+                  print('------------->validator: $value');
+
+                  if (value.length < 6 || value.length > 16) {
+                    return '账号格式错误 6-16位';
+                    
+                    // showDemoDialog<DialogDemoAction>(
+                    //   context: context,
+                    //   child: AlertDialog(
+                    //     content: Text(
+                    //       '账号格式错误',
+                    //       style: dialogTextStyle,
+                    //     ),
+                    //     actions: <Widget>[
+                    //       FlatButton(
+                    //         child: const Text('CANCEL'),
+                    //         onPressed: () { Navigator.pop(context, DialogDemoAction.cancel); },
+                    //       ),
+                    //       FlatButton(
+                    //         child: const Text('DISCARD'),
+                    //         onPressed: () { Navigator.pop(context, DialogDemoAction.discard); },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // );
+                    // return '';
+                  }
+                },
+                onSaved: (String value) {
+                  print('------------->onSaved: $value');
+                },
+                onFieldSubmitted: (String value) {
+                  print('------------->onFieldSubmitted: $value');
+                },
+                // onEditingComplete: () {
+                //   print('------------->onEditingComplete');
+                // },
                 decoration: InputDecoration(
                   // border: UnderlineInputBorder(
                   //     borderSide: BorderSide(
@@ -80,11 +150,17 @@ class LGSignInRoute extends StatelessWidget {
                 ),
               ),
               TextFormField(
+                key: _pwdFieldKey,
                 style: fieldTxtStyle,
                 cursorColor: kNameFontColor,
                 textCapitalization: TextCapitalization.characters,
                 obscureText: true,
-                maxLength: 8,
+                maxLength: 16,
+                validator: (String value) {
+                  if (value.length < 6 || value.length > 16) {
+                    return '密码格式错误 6-16位';
+                  }
+                },
                 decoration: InputDecoration(
                   // border: UnderlineInputBorder(
                   //     borderSide: BorderSide(
