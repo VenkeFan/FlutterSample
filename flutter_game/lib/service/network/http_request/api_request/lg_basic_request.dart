@@ -5,12 +5,10 @@ import '../lg_api_error_code.dart';
 class LGBasicRequest extends Object {
   Map<dynamic, dynamic> paraMap;
 
-  String _url;
   String _apiName;
   HTTPRequestMethod _method;
 
   LGBasicRequest.initialize(String apiName, HTTPRequestMethod method) {
-    this._url = kBasicURL + apiName;
     this._apiName = apiName;
     this._method = method;
     this.paraMap = Map<dynamic, dynamic>();
@@ -19,7 +17,7 @@ class LGBasicRequest extends Object {
   void requestData({RequestSucceedBlock success, RequestFailBlock failure}) {
     FQNetworkManager manager = FQNetworkManager(kBasicURL);
     manager.requestUrl(
-        absoluteUrl: this._apiName,
+        apiName: this._apiName,
         method: this._method,
         parameters: this.paraMap,
         success: (Object responseObject) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_game/business/sign/management/lg_signflow_manager.dart';
+import 'business/sign/management/lg_signflow_manager.dart';
+import 'business/sign/route/lg_signin_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LGSignInRoute(), // MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

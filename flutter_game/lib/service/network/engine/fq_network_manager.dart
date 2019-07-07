@@ -1,9 +1,5 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 
 // typedef void RequestFinishedCallBack(Object responseObject);
 typedef RequestSucceedBlock = void Function(Object responseObject); // 两种定义方式等价
@@ -41,15 +37,15 @@ class FQNetworkManager extends Object {
   FQNetworkManager._internal(this.basicUrl);
 
   @pragma("Public")
-  void requestUrl({String absoluteUrl, HTTPRequestMethod method, Map<dynamic, dynamic> parameters, RequestSucceedBlock success, RequestFailBlock failure}) async {
+  void requestUrl({String apiName, HTTPRequestMethod method, Map<dynamic, dynamic> parameters, RequestSucceedBlock success, RequestFailBlock failure}) async {
     Response response;
     switch (method) {
       case HTTPRequestMethod.method_get: {
-          response = await dio.get(absoluteUrl, queryParameters: parameters);
+          response = await dio.get(apiName, queryParameters: parameters);
       }
         break;
       case HTTPRequestMethod.method_post: {
-          response = await dio.post(absoluteUrl, data: parameters);
+          response = await dio.post(apiName, data: parameters);
       }
         break;
       default:
