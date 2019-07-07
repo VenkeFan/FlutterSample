@@ -38,29 +38,32 @@ class FQNetworkManager extends Object {
 
   @pragma("Public")
   void requestUrl({String apiName, HTTPRequestMethod method, Map<dynamic, dynamic> parameters, RequestSucceedBlock success, RequestFailBlock failure}) async {
-    Response response;
-    switch (method) {
-      case HTTPRequestMethod.method_get: {
-          response = await dio.get(apiName, queryParameters: parameters);
+    try {
+      Response response;
+      switch (method) {
+        case HTTPRequestMethod.method_get: {
+            response = await dio.get(apiName, queryParameters: parameters);
+        }
+          break;
+        case HTTPRequestMethod.method_post: {
+            response = await dio.post(apiName, data: parameters);
+        }
+          break;
+        default:
+          break;
       }
-        break;
-      case HTTPRequestMethod.method_post: {
-          response = await dio.post(apiName, data: parameters);
+      
+      if (response.statusCode == HttpStatus.ok) {
+        if (success != null) {
+          success(response.data);
+        }
+      } else {
+        if (failure != null) {
+          failure(response.statusCode);
+        }
       }
-        break;
-      default:
-        break;
-    }
-
-    print(response);
-    if (response.statusCode == HttpStatus.ok) {
-      if (success != null) {
-        success(response.data);
-      }
-    } else {
-      if (failure != null) {
-        failure(response.statusCode);
-      }
+    } catch (e) {
+      print(e);
     }
   }
 }
