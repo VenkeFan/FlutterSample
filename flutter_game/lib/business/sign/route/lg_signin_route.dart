@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_game/utility/window_utility.dart';
 import '../management/lg_signflow_manager.dart';
 import '../../common_ui/lg_ui_config.dart';
+import '../../main/route/lg_main_route.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -11,14 +12,16 @@ enum DialogDemoAction {
   agree,
 }
 
-class LGSignInRoute extends StatelessWidget {
+class LGSignInRoute extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return LGSignInRouteState();
+  }
+}
+
+class LGSignInRouteState extends State<LGSignInRoute> {
   final GlobalKey<FormFieldState<String>> _accountFieldKey = GlobalKey(debugLabel: 'accountFieldKey'); // GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> _pwdFieldKey = GlobalKey(debugLabel: 'pwdFieldKey'); // GlobalKey<FormFieldState<String>>();
-
-  final fieldTxtStyle = TextStyle(
-    color: kNameFontColor,
-    fontSize: kFieldFontSize,
-  );
 
   void showDemoDialog<T>({ BuildContext context, Widget child }) {
     showDialog<T>(
@@ -57,12 +60,15 @@ class LGSignInRoute extends StatelessWidget {
 
   void _visiteBtnPressed() {
     print('_visiteBtnPressed');
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
+      return LGMainRoute();
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final TextStyle dialogTextStyle = theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
+    // final ThemeData theme = Theme.of(context);
+    // final TextStyle dialogTextStyle = theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
     
     FQWindowUtility.initialize(context);
     final screenWidth = FQWindowUtility.instance().screenWidth;
@@ -70,6 +76,11 @@ class LGSignInRoute extends StatelessWidget {
 
     final x = 28.0, y = 83.0; // screenHeight * 0.5 - 150.0;
     final width = screenWidth - x * 2;
+    
+    final fieldTxtStyle = TextStyle(
+      color: kNameFontColor,
+      fontSize: kFieldFontSize,
+    );
 
     return Scaffold(
       body: DecoratedBox(

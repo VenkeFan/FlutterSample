@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'business/sign/management/lg_signflow_manager.dart';
 import 'business/sign/route/lg_signin_route.dart';
+import 'business/common_ui/lg_ui_config.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        primaryColor: kNavBarColor,
+        canvasColor: kMainBgColor,
       ),
       home: LGSignInRoute(), // MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -31,12 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    // setState(() {
-    //   _counter++;
-    // });
-
-    LGSignFlowManager flowManager = LGSignFlowManager();
-    flowManager.signIn("18701147885", "000000");
+    setState(() {
+      _counter++;
+    });
   }
 
   @override
