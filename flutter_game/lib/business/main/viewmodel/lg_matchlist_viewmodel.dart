@@ -1,5 +1,3 @@
-import 'package:flutter_game/service/network/http_request/lg_api_error_code.dart';
-import '../model/lg_matchlist_keys.dart';
 import 'package:flutter_game/service/network/http_request/api_request/lg_matchlist_request.dart';
 
 typedef void MatchListViewModelCompleted({List list, int errorCode});

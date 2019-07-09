@@ -49,16 +49,6 @@ class _LGMatchListViewState extends State<LGMatchListView> {
 
     this._separateTeamsAndOdds(dataDic);
 
-    // return Card(
-    //   color: kCellBgColor,
-    //   child: Column(
-    //     children: <Widget>[
-    //       _buildPlayName(dataDic),
-    //       _buildTeamLogo(),
-    //     ],
-    //   ),
-    // );
-
     return Container(
       height: 166.0,
       margin: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 0.0),
@@ -72,10 +62,10 @@ class _LGMatchListViewState extends State<LGMatchListView> {
             child: _buildPlayName(dataDic),
           ),
           Expanded(
-            child: _buildTeamLogo(),
+            child: _buildTeamLogo(dataDic),
           ),
           Expanded(
-            child: _buildOdds(),
+            child: _buildOdds(dataDic),
           ),
           // _buildPlayName(dataDic),
           // _buildTeamLogo(),
@@ -116,10 +106,11 @@ class _LGMatchListViewState extends State<LGMatchListView> {
     //     color: kMarqueeBgColor,
     //     borderRadius: BorderRadius.circular(kCornerRadius),
     //   ),
-    //   child: Row(...),
+    //   // child: Row(...),
     // );
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
           height: 24.0,
@@ -180,9 +171,10 @@ class _LGMatchListViewState extends State<LGMatchListView> {
     );
   }
 
-  Widget _buildTeamLogo() {
-    double size = 60.0;
-    double x = _marginX + LGMatchBasicOddsView.kOddsViewWidth * 0.5 - size * 0.5;
+  Widget _buildTeamLogo(Map dataDic) {
+    double logoSize = 60.0;
+    double x =
+        _marginX + LGMatchBasicOddsView.kOddsViewWidth * 0.5 - logoSize * 0.5;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -190,23 +182,132 @@ class _LGMatchListViewState extends State<LGMatchListView> {
           margin: EdgeInsets.only(left: x),
           child: Image.network(
             _leftTeam[kMatchTeamKeyLogo],
-            width: size,
-            height: size,
+            width: logoSize,
+            height: logoSize,
           ),
         ),
+        _buildTeamMiddle(dataDic),
         Container(
           margin: EdgeInsets.only(right: x),
           child: Image.network(
             _rightTeam[kMatchTeamKeyLogo],
-            width: size,
-            height: size,
+            width: logoSize,
+            height: logoSize,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildOdds() {
+  String _shortStartTime(String startTime) {
+    int index = startTime.indexOf(' ');
+    return startTime.substring(index, index + 6);
+  }
+
+  Widget _buildTeamMiddle(Map dataDic) {
+    final timeWidget = Container(
+      child: Text(
+        _shortStartTime(dataDic[kMatchKeyStartTime]),
+        style: TextStyle(
+          color: kScoreFontColor,
+          fontSize: kNameFontSize,
+        ),
+      ),
+    );
+
+    final scoreWidget = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          _leftTeam[kMatchTeamKeyScore][kMatchScoreKeyTotal] != null
+              ? _leftTeam[kMatchTeamKeyScore][kMatchScoreKeyTotal].toString()
+              : '0',
+          style: TextStyle(
+            color: kScoreFontColor,
+            fontSize: kScoreFontSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 6.0),
+          width: 14.0,
+          height: 2.0,
+          color: kMarqueeBgColor,
+        ),
+        Text(
+          _rightTeam[kMatchTeamKeyScore][kMatchScoreKeyTotal] != null
+              ? _rightTeam[kMatchTeamKeyScore][kMatchScoreKeyTotal].toString()
+              : '0',
+          style: TextStyle(
+            color: kScoreFontColor,
+            fontSize: kScoreFontSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+
+    int matchStatus = dataDic[kMatchKeyStatus];
+    switch (widget.listType) {
+      case LGMatchListType.prepare:
+        {
+          return timeWidget;
+        }
+        break;
+      case LGMatchListType.today:
+        {
+          switch (matchStatus) {
+            case LGMatchStatus.prepare:
+              {
+                return timeWidget;
+              }
+              break;
+            case LGMatchStatus.rolling:
+              {
+                return scoreWidget;
+              }
+              break;
+            default:
+              {
+                return scoreWidget;
+              }
+              break;
+          }
+        }
+        break;
+      case LGMatchListType.rolling:
+        {
+          switch (matchStatus) {
+            case LGMatchStatus.prepare:
+              {
+                return timeWidget;
+              }
+              break;
+            case LGMatchStatus.rolling:
+              {
+                return scoreWidget;
+              }
+              break;
+            default:
+              {
+                return scoreWidget;
+              }
+              break;
+          }
+        }
+        break;
+      case LGMatchListType.finished:
+        {
+          return scoreWidget;
+        }
+        break;
+      default:
+        return Container();
+        break;
+    }
+  }
+
+  Widget _buildOdds(Map dataDic) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -215,11 +316,72 @@ class _LGMatchListViewState extends State<LGMatchListView> {
           margin: EdgeInsets.only(left: _marginX, bottom: _marginY),
           child: LGMatchBasicOddsView(_leftTeam, _leftOdds),
         ),
+        _buildBtmStatusWidget(dataDic),
         Container(
           margin: EdgeInsets.only(right: _marginX, bottom: _marginY),
           child: LGMatchBasicOddsView(_rightTeam, _rightOdds),
         )
       ],
     );
+  }
+
+  Widget _buildBtmStatusWidget(Map dataDic) {
+    int matchStatus = dataDic[kMatchKeyStatus];
+
+    switch (matchStatus) {
+      case LGMatchStatus.prepare:
+        {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('lib/images/main_notStarted2.png'),
+              SizedBox(height: 4.0,),
+              Text('未开始', style: TextStyle(
+                color: kMainOnTintColor,
+                fontSize: kNoteFontSize,
+              ),),
+            ],
+          );
+        }
+        break;
+      case LGMatchStatus.rolling:
+        {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('lib/images/main_rolling.png'),
+              SizedBox(height: 4.0,),
+              Text('滚盘', style: TextStyle(
+                color: kMainOnTintColor,
+                fontSize: kNoteFontSize,
+              ),),
+            ],
+          );
+        }
+        break;
+      case LGMatchStatus.finished:
+      {
+        var flagImage = (Map oddsDic) {
+          return oddsDic[kMatchOddsKeyWin] == '1' ? 'lib/images/main_win.png' : 'lib/images/main_lose.png';
+        };
+
+        return Expanded(
+          child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Image.asset(flagImage(_leftOdds)),
+            Image.asset(flagImage(_rightOdds)),
+          ],
+        ),
+        );
+      }
+      break;
+      default:
+        {
+          return Container();
+        }
+        break;
+    }
   }
 }

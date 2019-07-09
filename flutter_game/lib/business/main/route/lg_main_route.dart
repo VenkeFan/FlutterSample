@@ -54,12 +54,7 @@ class LGMainRoute extends StatelessWidget {
         // ),
         body: TabBarView(
           children: choices.map((Choice choice) {
-            // return Padding(
-            //   padding: const EdgeInsets.all(0.0),
-            //   child: LGMatchListView(listType: choice.type,),
-            // );
             return LGMatchListView(listType: choice.type,);
-
           }).toList(),
         ),
       ),
