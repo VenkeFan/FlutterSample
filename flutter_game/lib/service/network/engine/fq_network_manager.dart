@@ -37,7 +37,7 @@ class FQNetworkManager extends Object {
   FQNetworkManager._internal(this.basicUrl);
 
   @pragma("Public")
-  void requestUrl({String apiName, HTTPRequestMethod method, Map<dynamic, dynamic> parameters, RequestSucceedBlock success, RequestFailBlock failure}) async {
+  void requestUrl({String apiName, HTTPRequestMethod method, Map<String, dynamic> parameters, RequestSucceedBlock success, RequestFailBlock failure}) async {
     try {
       Response response;
       switch (method) {

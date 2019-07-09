@@ -3,7 +3,7 @@ import '../lg_api_url_config.dart';
 import '../lg_api_error_code.dart';
 
 class LGBasicRequest extends Object {
-  Map<dynamic, dynamic> paraMap;
+  Map<String, dynamic> paraMap;
 
   String _apiName;
   HTTPRequestMethod _method;
@@ -11,7 +11,7 @@ class LGBasicRequest extends Object {
   LGBasicRequest.initialize(String apiName, HTTPRequestMethod method) {
     this._apiName = apiName;
     this._method = method;
-    this.paraMap = Map<dynamic, dynamic>();
+    this.paraMap = Map<String, dynamic>();
   }
 
   void requestData({RequestSucceedBlock success, RequestFailBlock failure}) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_game/business/common_ui/lg_ui_config.dart';
+import '../../common_ui/lg_ui_config.dart';
+import '../view/lg_matchlist_view.dart';
+import '../model/lg_matchlist_keys.dart';
 
 class LGMainRoute extends StatelessWidget {
   @override
@@ -43,7 +45,7 @@ class LGMainRoute extends StatelessWidget {
               );
             }).toList(),
             onTap: (int index) {
-              print('-----> $index');
+
             },
           ),
         ),
@@ -54,9 +56,10 @@ class LGMainRoute extends StatelessWidget {
           children: choices.map((Choice choice) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ChoiceCard(
-                choice: choice,
-              ),
+              // child: ChoiceCard(
+              //   choice: choice,
+              // ),
+              child: LGMatchListView(listType: choice.type,),
             );
           }).toList(),
         ),
@@ -66,30 +69,31 @@ class LGMainRoute extends StatelessWidget {
 }
 
 class Choice {
-  const Choice({this.title});
+  const Choice({this.title, this.type});
   final String title;
+  final int type;
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: '赛前'),
-  const Choice(title: '今日'),
-  const Choice(title: '滚盘'),
-  const Choice(title: '已结束'),
+  const Choice(title: '赛前', type: LGMatchListType.prepare),
+  const Choice(title: '今日', type: LGMatchListType.today),
+  const Choice(title: '滚盘', type: LGMatchListType.rolling),
+  const Choice(title: '已结束', type: LGMatchListType.finished),
 ];
 
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice}) : super(key: key);
+// class ChoiceCard extends StatelessWidget {
+//   const ChoiceCard({Key key, this.choice}) : super(key: key);
 
-  final Choice choice;
+//   final Choice choice;
 
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return new Card(
-      color: Colors.white,
-      child: new Center(
-        child: Text(choice.title, style: textStyle),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final TextStyle textStyle = Theme.of(context).textTheme.display1;
+//     return new Card(
+//       color: Colors.white,
+//       child: new Center(
+//         child: Text(choice.title, style: textStyle),
+//       ),
+//     );
+//   }
+// }

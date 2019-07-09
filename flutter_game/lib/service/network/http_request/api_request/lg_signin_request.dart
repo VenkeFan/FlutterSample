@@ -1,6 +1,6 @@
+import 'lg_basic_request.dart';
 import '../../engine/fq_network_manager.dart';
 import '../lg_api_url_config.dart';
-import 'lg_basic_request.dart';
 
 class LGSignRequest extends LGBasicRequest {
   LGSignRequest() : super.initialize(kAPISignInURL, HTTPRequestMethod.method_post);
