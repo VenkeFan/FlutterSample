@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../common_ui/lg_ui_config.dart';
+import '../model/lg_matchlist_keys.dart';
 
 class LGMatchBasicOddsView extends StatefulWidget {
   final Map teamDic;
@@ -14,6 +15,8 @@ class LGMatchBasicOddsView extends StatefulWidget {
 }
 
 class _LGMatchBasicOddsViewState extends State<LGMatchBasicOddsView> {
+  final textStyle = TextStyle();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,6 +25,30 @@ class _LGMatchBasicOddsViewState extends State<LGMatchBasicOddsView> {
       decoration: BoxDecoration(
         color: kMarqueeBgColor,
         borderRadius: BorderRadius.all(Radius.circular(kCornerRadius)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Text(widget.oddsDic[kMatchOddsKeyOddsValue],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kNameFontColor,
+                  fontSize: kNameFontSize,
+                )),
+          ),
+          Container(
+            child: Text(widget.teamDic[kMatchTeamKeyName],
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: kNameFontColor,
+                  fontSize: kNoteFontSize,
+                )),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import '../model/lg_matchlist_keys.dart';
 import '../../common_ui/lg_ui_config.dart';
 import '../viewmodel/lg_matchlist_viewmodel.dart';
@@ -60,7 +61,7 @@ class _LGMatchListViewState extends State<LGMatchListView> {
 
     return Container(
       height: 166.0,
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 0.0),
       decoration: BoxDecoration(
         color: kCellBgColor,
         borderRadius: BorderRadius.circular(kCornerRadius),

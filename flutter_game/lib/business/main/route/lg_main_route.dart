@@ -54,13 +54,12 @@ class LGMainRoute extends StatelessWidget {
         // ),
         body: TabBarView(
           children: choices.map((Choice choice) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              // child: ChoiceCard(
-              //   choice: choice,
-              // ),
-              child: LGMatchListView(listType: choice.type,),
-            );
+            // return Padding(
+            //   padding: const EdgeInsets.all(0.0),
+            //   child: LGMatchListView(listType: choice.type,),
+            // );
+            return LGMatchListView(listType: choice.type,);
+
           }).toList(),
         ),
       ),
@@ -80,20 +79,3 @@ const List<Choice> choices = const <Choice>[
   const Choice(title: '滚盘', type: LGMatchListType.rolling),
   const Choice(title: '已结束', type: LGMatchListType.finished),
 ];
-
-// class ChoiceCard extends StatelessWidget {
-//   const ChoiceCard({Key key, this.choice}) : super(key: key);
-
-//   final Choice choice;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final TextStyle textStyle = Theme.of(context).textTheme.display1;
-//     return new Card(
-//       color: Colors.white,
-//       child: new Center(
-//         child: Text(choice.title, style: textStyle),
-//       ),
-//     );
-//   }
-// }
