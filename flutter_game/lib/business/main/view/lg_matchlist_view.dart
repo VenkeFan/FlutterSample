@@ -21,11 +21,20 @@ class _LGMatchListViewState extends State<LGMatchListView> {
   Map _leftOdds, _rightOdds;
 
   @override
+  void dispose() {
+    super.dispose();
+    print('LGMatchListView dispose!!!!!!!!!!!!!!');
+  }
+
+  @override
   void initState() {
     super.initState();
 
     _viewModel = LGMatchListViewModel(listType: widget.listType);
     _viewModel.fetchData(completed: ({List list, int errorCode}) {
+      if (!this.mounted) {
+       return; 
+      }
       setState(() {
         if (list != null) {
           list.sort((dynamic a, dynamic b) {
