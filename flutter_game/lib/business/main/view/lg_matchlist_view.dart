@@ -28,6 +28,9 @@ class _LGMatchListViewState extends State<LGMatchListView> {
     _viewModel.fetchData(completed: ({List list, int errorCode}) {
       setState(() {
         if (list != null) {
+          list.sort((dynamic a, dynamic b) {
+            return a[kMatchKeyStartTime].toString().compareTo(b[kMatchKeyStartTime].toString());
+          });
           _dataList.addAll(list);
         }
       });
