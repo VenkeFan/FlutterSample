@@ -4,6 +4,7 @@ import '../model/lg_matchlist_keys.dart';
 import '../../common_ui/lg_ui_config.dart';
 import '../viewmodel/lg_matchlist_viewmodel.dart';
 import 'lg_basicodds_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class LGMatchListView extends StatefulWidget {
   final int listType;
@@ -192,19 +193,33 @@ class _LGMatchListViewState extends State<LGMatchListView> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: x),
-          child: Image.network(
-            _leftTeam[kMatchTeamKeyLogo],
+          // child: Image.network(
+          //   _leftTeam[kMatchTeamKeyLogo],
+          //   width: logoSize,
+          //   height: logoSize,
+          // ),
+          child: CachedNetworkImage(
+            imageUrl: _leftTeam[kMatchTeamKeyLogo],
             width: logoSize,
             height: logoSize,
+            // placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
         _buildTeamMiddle(dataDic),
         Container(
           margin: EdgeInsets.only(right: x),
-          child: Image.network(
-            _rightTeam[kMatchTeamKeyLogo],
+          // child: Image.network(
+          //   _rightTeam[kMatchTeamKeyLogo],
+          //   width: logoSize,
+          //   height: logoSize,
+          // ),
+          child: CachedNetworkImage(
+            imageUrl: _rightTeam[kMatchTeamKeyLogo],
             width: logoSize,
             height: logoSize,
+            // placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ],
