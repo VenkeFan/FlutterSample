@@ -4,6 +4,7 @@ import 'package:flutter_game/utility/window_utility.dart';
 import '../management/lg_signflow_manager.dart';
 import '../../common_ui/lg_ui_config.dart';
 import '../../main/route/lg_main_route.dart';
+import '../../../service/internationalization/fq_internationalization.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -158,7 +159,7 @@ class LGSignInRouteState extends State<LGSignInRoute> {
                     filled: true,
                     hintText: '请输入登录账号或手机号',
                     hintStyle: fieldTxtStyle,
-                    labelText: '账号',
+                    labelText: FQLocalizations.of(context).localizedString('sign_account'),
                     labelStyle: fieldTxtStyle,
                   ),
                 ),
