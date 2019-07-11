@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
 
       supportedLocales: [
         const Locale('en'),
-        const Locale('zh'), // 这个在iOS 12.2中识别不出中文环境
+        const Locale('zh'),
       ],
+      // locale: const Locale('zh', 'CN'), // 手动指定locale，此时将忽略系统locale
 
       // showPerformanceOverlay: true,
 

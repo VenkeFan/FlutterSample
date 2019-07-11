@@ -5,7 +5,6 @@ import 'l10n/messages_all.dart';
 class FQLocalizations {
   static Future<FQLocalizations> load(Locale locale) {
     final String name = locale.countryCode == null || locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
-    print('$name');
     final String localeName = Intl.canonicalizedLocale(name);
 
     return initializeMessages(localeName).then((_) {

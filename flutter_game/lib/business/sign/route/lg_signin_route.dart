@@ -74,6 +74,10 @@ class LGSignInRouteState extends State<LGSignInRoute> {
     // final ThemeData theme = Theme.of(context);
     // final TextStyle dialogTextStyle = theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
 
+    // 这个在iOS 12.2中识别不出中文环境
+    // Locale myLocale = Localizations.localeOf(context);
+    // print('${myLocale.languageCode} -- ${myLocale.countryCode}');
+
     FQWindowUtility.initialize(context);
     final screenWidth = FQWindowUtility.instance().screenWidth;
     final screenHeight = FQWindowUtility.instance().screenHeight;
