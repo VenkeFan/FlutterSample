@@ -23,8 +23,8 @@ class _LGMatchListViewState extends State<LGMatchListView> {
 
   @override
   void dispose() {
-    super.dispose();
     print('LGMatchListView dispose!!!!!!!!!!!!!!');
+    super.dispose();
   }
 
   @override

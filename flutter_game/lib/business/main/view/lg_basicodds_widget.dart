@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../common_ui/lg_ui_config.dart';
 import '../model/lg_matchlist_keys.dart';
+import 'lg_parlay_widget.dart';
 
 class LGMatchBasicOddsView extends StatefulWidget {
   final Map teamDic;
@@ -19,36 +20,41 @@ class _LGMatchBasicOddsViewState extends State<LGMatchBasicOddsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: LGMatchBasicOddsView.kOddsViewWidth,
-      height: LGMatchBasicOddsView.kOddsViewHeight,
-      decoration: BoxDecoration(
-        color: kMarqueeBgColor,
-        borderRadius: BorderRadius.all(Radius.circular(kCornerRadius)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Text(widget.oddsDic[kMatchOddsKeyOddsValue],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kNameFontColor,
-                  fontSize: kNameFontSize,
-                )),
-          ),
-          Container(
-            child: Text(widget.teamDic[kMatchTeamKeyName],
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: kNameFontColor,
-                  fontSize: kNoteFontSize,
-                )),
-          ),
-        ],
+    return InkWell(
+      onTap: () {
+        LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic);
+      },
+      child: Container(
+        width: LGMatchBasicOddsView.kOddsViewWidth,
+        height: LGMatchBasicOddsView.kOddsViewHeight,
+        decoration: BoxDecoration(
+          color: kMarqueeBgColor,
+          borderRadius: BorderRadius.all(Radius.circular(kCornerRadius)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Text(widget.oddsDic[kMatchOddsKeyOddsValue],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kNameFontColor,
+                    fontSize: kNameFontSize,
+                  )),
+            ),
+            Container(
+              child: Text(widget.teamDic[kMatchTeamKeyName],
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: kNameFontColor,
+                    fontSize: kNoteFontSize,
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
