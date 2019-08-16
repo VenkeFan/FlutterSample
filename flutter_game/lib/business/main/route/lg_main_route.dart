@@ -4,6 +4,27 @@ import '../view/lg_matchlist_view.dart';
 import '../model/lg_matchlist_keys.dart';
 
 class LGMainRoute extends StatelessWidget {
+  // static const List<Choice> choices = const <Choice>[
+  //   const Choice(title: '赛前', type: LGMatchListType.prepare),
+  //   const Choice(title: '今日', type: LGMatchListType.today),
+  //   const Choice(title: '滚盘', type: LGMatchListType.rolling),
+  //   const Choice(title: '已结束', type: LGMatchListType.finished),
+  // ];
+
+  List<Choice> choices;
+  List<LGMatchListView> listViewArray;
+
+  LGMainRoute() {
+    choices = <Choice>[
+      const Choice(title: '赛前', type: LGMatchListType.prepare, index: 0),
+      const Choice(title: '今日', type: LGMatchListType.today, index: 1),
+      const Choice(title: '滚盘', type: LGMatchListType.rolling, index: 2),
+      const Choice(title: '已结束', type: LGMatchListType.finished, index: 3),
+    ];
+
+    listViewArray = List();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -45,7 +66,8 @@ class LGMainRoute extends StatelessWidget {
               );
             }).toList(),
             onTap: (int index) {
-
+              print('-------> $index');
+              // listViewArray[index].display();
             },
           ),
         ),
@@ -54,7 +76,12 @@ class LGMainRoute extends StatelessWidget {
         // ),
         body: TabBarView(
           children: choices.map((Choice choice) {
-            return LGMatchListView(listType: choice.type,);
+            LGMatchListView listView = LGMatchListView(listType: choice.type,);
+            listViewArray.add(listView);
+            if (choice.index == 0) {
+              listView.display();
+            }
+            return listView;
           }).toList(),
         ),
       ),
@@ -63,14 +90,8 @@ class LGMainRoute extends StatelessWidget {
 }
 
 class Choice {
-  const Choice({this.title, this.type});
+  const Choice({this.title, this.type, this.index});
   final String title;
   final int type;
+  final int index;
 }
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: '赛前', type: LGMatchListType.prepare),
-  const Choice(title: '今日', type: LGMatchListType.today),
-  const Choice(title: '滚盘', type: LGMatchListType.rolling),
-  const Choice(title: '已结束', type: LGMatchListType.finished),
-];

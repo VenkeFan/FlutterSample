@@ -7,6 +7,7 @@ class LGMatchListRequest extends LGBasicRequest {
   LGMatchListRequest(this.listType) : super.initialize(kAPIMatchListURL + listType.toString(), HTTPRequestMethod.method_get);
 
   void requestMatchList({RequestSucceedBlock success, RequestFailBlock failure}) {
+    this.paraMap["page_num"] = 1;
     super.requestData(success: (Object responseObject) {
       if (success != null) {
         success(responseObject);

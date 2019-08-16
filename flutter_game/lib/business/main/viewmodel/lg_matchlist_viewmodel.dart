@@ -9,11 +9,8 @@ class LGMatchListViewModel extends Object {
   void fetchData({MatchListViewModelCompleted completed}) {
     LGMatchListRequest request = LGMatchListRequest(this.listType);
     request.requestMatchList(success: (Object responseObject) {
-      if (responseObject is! List) {
-        return;
-      }
-
-      List list = responseObject as List;
+      Map responseDic = responseObject as Map;
+      List list = responseDic["datas"];
       if (completed != null) {
         completed(list: list);
       }

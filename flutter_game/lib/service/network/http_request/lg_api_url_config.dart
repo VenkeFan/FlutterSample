@@ -1,4 +1,5 @@
-const String kBasicURL                       = "http://192.168.1.118";
+// const String kBasicURL                       = "http://192.168.1.118";
+const String kBasicURL                       = "http://server.yjwl.ltd";
 
 @pragma("帐号")
 const String kAPIVerifyCodeURL               = "/register/sms/";

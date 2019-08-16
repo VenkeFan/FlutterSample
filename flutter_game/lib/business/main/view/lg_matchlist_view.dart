@@ -8,7 +8,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class LGMatchListView extends StatefulWidget {
   final int listType;
-  LGMatchListView({this.listType});
+  LGMatchListView({this.listType}) {
+    this._loaded = false;
+  }
+
+  bool _loaded;
+  @pragma('Public')
+  void display() {
+    if (true == this._loaded) {
+      return;
+    }
+    this._loaded = true;
+  }
 
   @override
   State<StatefulWidget> createState() => _LGMatchListViewState();
@@ -21,17 +32,7 @@ class _LGMatchListViewState extends State<LGMatchListView> {
   Map _leftTeam, _rightTeam;
   Map _leftOdds, _rightOdds;
 
-  @override
-  void dispose() {
-    print('LGMatchListView dispose!!!!!!!!!!!!!!');
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _viewModel = LGMatchListViewModel(listType: widget.listType);
+  void _beginRefresh() {
     _viewModel.fetchData(completed: ({List list, int errorCode}) {
       if (!this.mounted) {
        return; 
@@ -48,9 +49,26 @@ class _LGMatchListViewState extends State<LGMatchListView> {
   }
 
   @override
+  void dispose() {
+    print('LGMatchListView ${this.widget.listType} dispose!!!!!!!!!!!!!!');
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _viewModel = LGMatchListViewModel(listType: widget.listType);
+    
+    if (this.widget._loaded) {
+      this._beginRefresh();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: this._dataList.length,
+      itemCount: null != this._dataList ? this._dataList.length : 0,
       itemBuilder: _buildItem,
     );
   }
@@ -100,7 +118,7 @@ class _LGMatchListViewState extends State<LGMatchListView> {
       }
     }
 
-    if (oddsList.length >= 2) {
+    if (null != oddsList && oddsList.length >= 2) {
       if (_leftTeam[kMatchTeamKeyTeamID] == oddsList[0][kMatchOddsKeyTeamID]) {
         _leftOdds = oddsList[0];
         _rightOdds = oddsList[1];
