@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_englisth/business/general_english/route/fq_english_route.dart';
 import 'package:flutter_englisth/utility/fq_marco.dart';
 
 const String kTermItemGroupTitleKey = "kTermItemGroupTitleKey";
@@ -21,11 +22,11 @@ class _FQCoursesWidgetState extends State<FQCoursesWidget> {
     _itemArray = <Map>[
       {
         kTermItemTitleKey: "通用英语1",
-        kTermItemClassKey: "FQGeneralEnglishVC",
+        kTermItemClassKey: "FQGeneralEnglishRoute",
       },
       {
         kTermItemTitleKey: "英语听说1",
-        kTermItemClassKey: "FQLSEnglisthVC",
+        kTermItemClassKey: "FQLSEnglisthRoute",
       },
       {
         kTermItemTitleKey: "英语语音（暂无资源）",
@@ -33,11 +34,11 @@ class _FQCoursesWidgetState extends State<FQCoursesWidget> {
       },
       {
         kTermItemTitleKey: "大学语文",
-        kTermItemClassKey: "FQLanguageVC",
+        kTermItemClassKey: "FQLanguageRoute",
       },
       {
         kTermItemTitleKey: "邓小平理论概论",
-        kTermItemClassKey: "FQDenglunVC",
+        kTermItemClassKey: "FQDenglunRoute",
       },
       {
         kTermItemTitleKey: "计算机文化基础（暂无资源）",
@@ -71,13 +72,37 @@ class _FQCoursesWidgetState extends State<FQCoursesWidget> {
         context: context,
         color: kSeparatorColor,
         tiles: _itemArray.map((Map itemDic) {
-          return ListTile(
-            title: Text(itemDic[kTermItemTitleKey], style: TextStyle(
-              color: kTitleFontColor,
-              fontSize: kTitleFontSize
-            ),),
-            trailing: Icon(Icons.arrow_forward_ios),
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                String routeName = itemDic[kTermItemClassKey];
+                switch (routeName) {
+                  case "FQGeneralEnglishRoute":
+                    return FQGeneralEnglishRoute();
+                    break;
+                  default:
+                  return null;
+                  break;
+                }
+              }));
+            },
+            child: ListTile(
+              title: Text(
+                itemDic[kTermItemTitleKey],
+                style:
+                    TextStyle(color: kTitleFontColor, fontSize: kTitleFontSize),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
           );
+
+          // return ListTile(
+          //   title: Text(itemDic[kTermItemTitleKey], style: TextStyle(
+          //     color: kTitleFontColor,
+          //     fontSize: kTitleFontSize
+          //   ),),
+          //   trailing: Icon(Icons.arrow_forward_ios),
+          // );
         }).toList(),
       ).toList(),
     );

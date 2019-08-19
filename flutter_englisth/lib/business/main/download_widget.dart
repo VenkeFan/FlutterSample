@@ -9,7 +9,9 @@ class _FQDownloadWidgetState extends State<FQDownloadWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
+      decoration: BoxDecoration(
+        color: Colors.cyan,
+      ),
     );
   }
 }
