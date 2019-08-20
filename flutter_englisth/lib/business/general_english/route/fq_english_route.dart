@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_englisth/business/general_english/model/fq_english_keys.dart';
 import 'package:flutter_englisth/business/general_english/view_model/fq_englisth_viewmodel.dart';
 import 'package:flutter_englisth/utility/fq_marco.dart';
+import 'package:flutter_englisth/utility/fq_player.dart';
 
 class FQGeneralEnglishRoute extends StatefulWidget {
   @override
@@ -53,6 +54,7 @@ class _FQGeneralEnglishRouteState extends State<FQGeneralEnglishRoute> {
         child: tile,
         onTap: () {
           print("${activity[kGETaskKeyUrl]}");
+          this._pushToPlayer(activity[kGETaskKeyUrl]);
         },
       );
         list.add(inkWell);
@@ -78,12 +80,19 @@ class _FQGeneralEnglishRouteState extends State<FQGeneralEnglishRoute> {
         child: tile,
         onTap: () {
           print("${task[kGETaskKeyUrl]}");
+          this._pushToPlayer(task[kGETaskKeyUrl]);
         },
       );
       list.add(inkWell);
     }
 
     return list;
+  }
+
+  void _pushToPlayer(String urlString) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+      return FQPlayerWidget.network(urlString: urlString);
+    }));
   }
 
   @override
