@@ -7,11 +7,21 @@ class FQDownloadWidget extends StatefulWidget {
 
 class _FQDownloadWidgetState extends State<FQDownloadWidget> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.cyan,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("下载管理"),
       ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.cyan,
+        ),
+      )
     );
   }
 }

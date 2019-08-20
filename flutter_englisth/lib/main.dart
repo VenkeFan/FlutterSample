@@ -142,9 +142,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('英语专业'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('英语专业'),
+      // ),
       body: Center(
         child: _buildTransitionsStack(),
       ),
