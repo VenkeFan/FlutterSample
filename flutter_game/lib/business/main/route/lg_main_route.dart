@@ -23,7 +23,92 @@ class LGMainRoute extends StatelessWidget {
     ];
 
     listViewArray = List();
+    for (var i = 0; i < choices.length; i++) {
+      LGMatchListView view = LGMatchListView(listType: choices[i].type);
+      listViewArray.add(view);
+    }
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return DefaultTabController(
+  //     length: choices.length,
+  //     child: NestedScrollView(
+  //         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+  //           return <Widget>[
+  //             SliverOverlapAbsorber(
+  //               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+  //               child: SliverAppBar(
+  //                 // backgroundColor: Colors.red,
+  //                 title: Image.asset('lib/images/nav_title.png'),
+  //                 pinned: true,
+  //                 expandedHeight: 0, // 150,
+  //                 forceElevated: innerBoxIsScrolled,
+  //                 bottom: TabBar(
+  //                   tabs: choices.map((Choice choice) {
+  //                     return Tab(
+  //                       text: choice.title,
+  //                     );
+  //                   }).toList(),
+  //                   onTap: (int index) {
+  //                     listViewArray[index].display();
+  //                   },
+  //                 ),
+  //               ),
+  //             )
+  //           ];
+  //         },
+  //         body: TabBarView(
+  //           children: choices.map((Choice choice) {
+  //             return SafeArea(
+  //               top: false,
+  //               bottom: false,
+  //               child: Builder(
+  //                 builder: (BuildContext context) {
+  //                   return CustomScrollView(
+  //                     key: PageStorageKey<String>(choice.title),
+  //                     slivers: <Widget>[
+  //                       SliverOverlapInjector(
+  //                         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+  //                       ),
+  //                       // SliverPadding(
+  //                       //   padding: const EdgeInsets.all(8.0),
+  //                       //   sliver: SliverFixedExtentList(
+  //                       //     itemExtent: 166.0,
+  //                       //     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+  //                       //       return Card(
+  //                       //         color: Colors.red,
+  //                       //       );
+  //                       //     }),
+  //                       //   ),
+  //                       // ),
+  //                       SliverList(
+  //                         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+  //                             return Card(
+  //                               child: Container(
+  //                                 height: 166.0,
+  //                               ),
+  //                               color: Colors.red,
+  //                             );
+  //                           }),
+  //                       ),
+  //                     ],
+  //                   );
+                    
+  //                   // LGMatchListView listView = LGMatchListView(listType: choice.type,);
+  //                   // listViewArray.add(listView);
+  //                   // if (choice.index == 0) {
+  //                   //   listView.display();
+  //                   // }
+  //                   // return listView; 
+  //                 },
+  //               ),
+  //             );
+  //           }).toList(),
+  //         ),
+  //       ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +151,7 @@ class LGMainRoute extends StatelessWidget {
               );
             }).toList(),
             onTap: (int index) {
-              print('-------> $index');
-              // listViewArray[index].display();
+              listViewArray[index].display();
             },
           ),
         ),
@@ -76,8 +160,7 @@ class LGMainRoute extends StatelessWidget {
         // ),
         body: TabBarView(
           children: choices.map((Choice choice) {
-            LGMatchListView listView = LGMatchListView(listType: choice.type,);
-            listViewArray.add(listView);
+            LGMatchListView listView = listViewArray[choice.index];
             if (choice.index == 0) {
               listView.display();
             }

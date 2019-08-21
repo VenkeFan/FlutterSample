@@ -50,7 +50,7 @@ class _LGMatchListViewState extends State<LGMatchListView> {
 
   @override
   void dispose() {
-    print('LGMatchListView ${this.widget.listType} dispose!!!!!!!!!!!!!!');
+    // print('LGMatchListView ${this.widget.listType} dispose!!!!!!!!!!!!!!');
     super.dispose();
   }
 
@@ -75,7 +75,6 @@ class _LGMatchListViewState extends State<LGMatchListView> {
 
   @pragma("Private")
   Widget _buildItem(BuildContext context, int index) {
-    // print('_buildItem ------> $index');
     Map dataDic = this._dataList[index];
 
     this._separateTeamsAndOdds(dataDic);
@@ -359,12 +358,12 @@ class _LGMatchListViewState extends State<LGMatchListView> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: _marginX, bottom: _marginY),
-          child: LGMatchBasicOddsView(_leftTeam, _leftOdds),
+          child: LGMatchBasicOddsView(_leftTeam, _leftOdds, dataDic[kMatchKeyMatchName]),
         ),
         _buildBtmStatusWidget(dataDic),
         Container(
           margin: EdgeInsets.only(right: _marginX, bottom: _marginY),
-          child: LGMatchBasicOddsView(_rightTeam, _rightOdds),
+          child: LGMatchBasicOddsView(_rightTeam, _rightOdds, dataDic[kMatchKeyMatchName]),
         )
       ],
     );

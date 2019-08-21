@@ -20,6 +20,7 @@ const kRedColor                           = Color(0xFF8E3737);
 const kNameFontColor                      = Color(0xFFCDC3B3);
 const kMainOnTintColor                    = Color(0xFF8E6C37);
 const kScoreFontColor                     = Color(0xFFEBE3D7);
+const kLightTintColor                     = Color(0xFFA09584);
 
 // font size
 const kHeaderFontSize                     = (16.0);

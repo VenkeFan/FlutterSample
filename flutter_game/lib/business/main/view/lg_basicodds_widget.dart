@@ -6,7 +6,8 @@ import 'lg_parlay_widget.dart';
 class LGMatchBasicOddsView extends StatefulWidget {
   final Map teamDic;
   final Map oddsDic;
-  LGMatchBasicOddsView(this.teamDic, this.oddsDic);
+  final String matchName;
+  LGMatchBasicOddsView(this.teamDic, this.oddsDic, this.matchName);
 
   @override
   State<StatefulWidget> createState() => _LGMatchBasicOddsViewState();
@@ -22,7 +23,49 @@ class _LGMatchBasicOddsViewState extends State<LGMatchBasicOddsView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic);
+
+        // PersistentBottomSheetController controller = showBottomSheet(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic, widget.matchName);
+        //     LGParlayWidget.instance().isDisplaying = true;
+        //     return LGParlayWidget.instance();
+        //   }
+        // );
+        
+
+        // if (LGParlayWidget.instance().isDisplaying) {
+        //   LGParlayWidget.instance().isDisplaying = false;
+
+        // } else {
+        //   PersistentBottomSheetController controller = showBottomSheet(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic);
+        //       LGParlayWidget.instance().isDisplaying = true;
+        //       return LGParlayWidget.instance();
+        //     }
+        //   ); 
+        // }
+        
+
+        // bool added = LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic);
+        // if (added == true) {
+        //   showModalBottomSheet(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return LGParlayWidget.instance();
+        //     }
+        //   );
+        // }
+
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            LGParlayWidget.instance().addTeamAndOdds(widget.teamDic, widget.oddsDic, widget.matchName);
+            return LGParlayWidget.instance();
+          }
+        );
       },
       child: Container(
         width: LGMatchBasicOddsView.kOddsViewWidth,

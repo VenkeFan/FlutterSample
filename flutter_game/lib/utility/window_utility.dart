@@ -8,9 +8,12 @@ class FQWindowUtility {
     if (_instance == null) {
       _instance = FQWindowUtility._internal();
 
-      final Size screenSize = MediaQuery.of(context).size;
-      _instance._screenWidth = screenSize.width;
-      _instance._screenHeight = screenSize.height;
+      MediaQueryData mediaQuery = MediaQuery.of(context);
+      
+      _instance._screenWidth = mediaQuery.size.width;
+      _instance._screenHeight = mediaQuery.size.height;
+
+      _instance._safeAreaBottomY = mediaQuery.padding.bottom;
     }
     return _instance;
   }
@@ -22,8 +25,10 @@ class FQWindowUtility {
   @pragma("Private")
   double _screenWidth;
   double _screenHeight;
+  double _safeAreaBottomY;
 
   @pragma("Public")
   double get screenWidth => this._screenWidth;
   double get screenHeight => this._screenHeight;
+  double get safeAreaBottomY => this._safeAreaBottomY;
 }
