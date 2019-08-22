@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_game/business/main/route/lg_match_detail_route.dart';
 import '../model/lg_matchlist_keys.dart';
 import '../../common_ui/lg_ui_config.dart';
 import '../viewmodel/lg_matchlist_viewmodel.dart';
@@ -86,21 +87,31 @@ class _LGMatchListViewState extends State<LGMatchListView> {
         color: kCellBgColor,
         borderRadius: BorderRadius.circular(kCornerRadius),
       ),
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: _buildPlayName(dataDic),
-          ),
-          Expanded(
-            child: _buildTeamLogo(dataDic),
-          ),
-          Expanded(
-            child: _buildOdds(dataDic),
-          ),
-          // _buildPlayName(dataDic),
-          // _buildTeamLogo(),
-          // _buildOdds(),
-        ],
+      child: InkWell(
+        onTap: () {
+          print('${dataDic[kMatchKeyID]}');
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) {
+              return LGMatchDetailRoute(matchID: dataDic[kMatchKeyID],);
+            }
+          ));
+        },
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: _buildPlayName(dataDic),
+            ),
+            Expanded(
+              child: _buildTeamLogo(dataDic),
+            ),
+            Expanded(
+              child: _buildOdds(dataDic),
+            ),
+            // _buildPlayName(dataDic),
+            // _buildTeamLogo(),
+            // _buildOdds(),
+          ],
+        ),
       ),
     );
   }
