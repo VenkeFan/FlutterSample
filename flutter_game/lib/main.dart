@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_cupertino_localizations/flutter_cupertino_localizations.dart';
 import 'business/sign/route/lg_signin_route.dart';
 import 'business/common_ui/lg_ui_config.dart';
 import 'service/internationalization/fq_internationalization.dart';
