@@ -26,6 +26,8 @@ class LGMatchDetailViewModel extends Object {
   List get teamArray => _teamArray;
   List get sortedKeyArray => _sortedKeyArray;
   List get stageNameArray => _stageNameArray;
+  Map get leftTeam => _leftTeam;
+  Map get rightTeam => _rightTeam;
 
   @pragma("Private")
   Map _matchDic;
@@ -44,7 +46,9 @@ class LGMatchDetailViewModel extends Object {
       _teamArray = _matchDic[kMatchKeyTeamArray];
       if (_teamArray.length > 1) {
         _teamArray.sort(([dynamic obj1, dynamic obj2]) {
-          return obj1[kMatchTeamKeyPos] > obj2[kMatchTeamKeyPos];
+          int pos1 = obj1[kMatchTeamKeyPos] as int;
+          int pos2 = obj2[kMatchTeamKeyPos] as int;
+          return pos1.compareTo(pos2);
         });
 
         _leftTeam = _teamArray[0];
@@ -67,25 +71,40 @@ class LGMatchDetailViewModel extends Object {
   }
 
   static String matchStageName(String stageKey, int index) {
-    if (stageKey == 'stageKey') {
+    if (stageKey == 'final') {
       index = -99999;
       stageKey = '全场';
     } else if (stageKey.contains('r')) {
       int start = stageKey.indexOf('r');
-      String number = stageKey.substring(start, start);
-      index = number as int;
+      int length = 'r'.length;
+      String number = stageKey.substring(start + length);
+      index = int.parse(number);
 
-      stageKey = '第' + LGMatchStageMapping[index] + '局';
+      stageKey = '第' + LGMatchStageMapping[number] + '局';
 
     } else if (stageKey.contains('map')) {
       int start = stageKey.indexOf('map');
-      String number = stageKey.substring(start, start + 2);
-      index = number as int;
+      int length = 'map'.length;
+      String number = stageKey.substring(start + length);
+      index = int.parse(number);
 
-      stageKey = '地图' + LGMatchStageMapping[index];
+      stageKey = '地图' + LGMatchStageMapping[number];
 
     } else if (stageKey.contains('1st')) {
-      
+      index = -2;
+      stageKey = '上半场';
+
+    } else if (stageKey.contains('2nd')) {
+      index = -1;
+      stageKey = '下半场';
+
+    }  else if (stageKey.contains('q')) {
+      int start = stageKey.indexOf('q');
+      int length = 'q'.length;
+      String number = stageKey.substring(start + length);
+      index = int.parse(number);
+
+      stageKey = '第' + LGMatchStageMapping[number] + '节';
     }
 
     return stageKey;
@@ -95,8 +114,19 @@ class LGMatchDetailViewModel extends Object {
     List keys = [];
     dic.keys.forEach((dynamic item) => keys.add(item));
     keys.sort(([dynamic obj1, dynamic obj2]) {
+      int index1 = 0, index2 = 0;
+      LGMatchDetailViewModel.matchStageName(obj1, index1);
+      LGMatchDetailViewModel.matchStageName(obj2, index2);
 
+      return index1.compareTo(index2);
     });
+
+    _sortedKeyArray = keys;
+
+
+    List stageArray = [];
+    _sortedKeyArray.forEach((dynamic item) => stageArray.add(LGMatchDetailViewModel.matchStageName(item, 0)));
+    _stageNameArray = stageArray;
   }
 
   Map _handleMatchStage(List oddsArray) {
@@ -141,7 +171,7 @@ class LGMatchDetailViewModel extends Object {
         }
       }
 
-      List groupArray = List(groupDic.length);
+      List groupArray = List();
       groupDic.forEach((dynamic key2, dynamic value2) {
         groupArray.add(value2);
       });
@@ -160,8 +190,10 @@ class LGMatchDetailViewModel extends Object {
       Map oddsDic1 = l1.first;
       Map oddsDic2 = l2.first;
 
-      return oddsDic1[kMatchOddsKeySortIndex] <
-          oddsDic2[kMatchOddsKeySortIndex];
+      int index1 = oddsDic1[kMatchOddsKeySortIndex] as int;
+      int index2 = oddsDic2[kMatchOddsKeySortIndex] as int;
+
+      return index1.compareTo(index2);
     });
 
     groupArray.forEach((dynamic item) {
@@ -194,7 +226,7 @@ class LGMatchDetailViewModel extends Object {
 
       List sortedArray = List();
       for(int i = 0; i < leftOddsArray.length + rightOddsArray.length; i++) {
-        int j = (i / 2) as int;
+        int j = i ~/ 2;
         if ((i & 1) == 0) {
           sortedArray.add(leftOddsArray[j]);
         } else {
@@ -210,8 +242,11 @@ class LGMatchDetailViewModel extends Object {
     } else if (tmp.startsWith('>') == true || tmp.startsWith('-') == true) {
 
       oddsArray.sort(([dynamic obj1, dynamic obj2]) {
-        double value1 = obj1[kMatchOddsKeyValue].toString().substring(1) as double;
-        double value2 = obj2[kMatchOddsKeyValue].toString().substring(1) as double;
+        String str1 = obj1[kMatchOddsKeyValue].toString().substring(1);
+        String str2 = obj2[kMatchOddsKeyValue].toString().substring(1);
+
+        double value1 = double.parse(str1);
+        double value2 = double.parse(str2);
 
         if (value1 == value2) {
           return obj2[kMatchOddsKeyValue].toString().startsWith('>') == true ? 1 : -1;
@@ -235,8 +270,8 @@ class LGMatchDetailViewModel extends Object {
       }
     } else if (oddsArray.first[kMatchOddsKeyTeamID] == 0) {
       oddsArray.sort(([dynamic obj1, dynamic obj2]) {
-        num value1 = obj1[kMatchOddsKeyValue];
-        num value2 = obj2[kMatchOddsKeyValue];
+        String value1 = obj1[kMatchOddsKeyValue];
+        String value2 = obj2[kMatchOddsKeyValue];
         return value1.compareTo(value2);
       });
     } else {
