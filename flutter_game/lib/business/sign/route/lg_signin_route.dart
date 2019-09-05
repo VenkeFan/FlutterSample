@@ -137,6 +137,7 @@ class LGSignInRouteState extends State<LGSignInRoute> {
                       // );
                       // return '';
                     }
+                    return '';
                   },
                   onSaved: (String value) {
                     print('------------->onSaved: $value');
@@ -178,6 +179,7 @@ class LGSignInRouteState extends State<LGSignInRoute> {
                     if (value.length < 6 || value.length > 16) {
                       return '密码格式错误 6-16位';
                     }
+                    return '';
                   },
                   decoration: InputDecoration(
                     // border: UnderlineInputBorder(

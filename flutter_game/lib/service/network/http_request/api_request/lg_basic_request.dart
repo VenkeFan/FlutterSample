@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import '../../engine/fq_network_manager.dart';
 import '../lg_api_url_config.dart';
 import '../lg_api_error_code.dart';
