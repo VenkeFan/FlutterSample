@@ -276,7 +276,7 @@ class _LGMatchDetailRouteState extends State<LGMatchDetailRoute> {
             mainAxisSpacing: kMatchDetailTableViewCellPadding,
             crossAxisSpacing: kMatchDetailTableViewCellPadding,
             padding: const EdgeInsets.all(kMatchDetailTableViewCellPadding),
-            childAspectRatio: 160.0 / 40.0,
+            childAspectRatio: 160.0 / kMatchTeamOddsHViewHeight,
             children: _oddsViewBuilder(context, section, row),
           ),
         ),
@@ -314,7 +314,7 @@ class _LGMatchDetailRouteState extends State<LGMatchDetailRoute> {
 
   double _cellHeight(BuildContext context, int section, int row) {
     double totalHeight = 0.0;
-    totalHeight += (kMatchDetailTableViewCellLineHeight + kMatchDetailTableViewCellPadding);
+    totalHeight += (kMatchDetailTableViewCellLineHeight + kMatchDetailTableViewCellPadding * 2);
     totalHeight += kMatchDetailTableViewCellPadding;
 
     int validOddsCount = 0;
@@ -326,7 +326,7 @@ class _LGMatchDetailRouteState extends State<LGMatchDetailRoute> {
       }
     });
 
-    double oddsContentViewHeight = (validOddsCount / 2) * (kMatchTeamOddsHViewHeight + kMatchDetailTableViewCellPadding);
+    double oddsContentViewHeight = (validOddsCount / 2).ceil() * (kMatchTeamOddsHViewHeight + kMatchDetailTableViewCellPadding * 2);
     totalHeight += oddsContentViewHeight;
 
     return totalHeight;

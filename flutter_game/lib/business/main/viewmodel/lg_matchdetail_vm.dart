@@ -217,11 +217,11 @@ class LGMatchDetailViewModel extends Object {
       });
 
       leftOddsArray.sort(([dynamic obj1, dynamic obj2]) {
-        return obj1[kMatchOddsKeyValue] < obj2[kMatchOddsKeyValue];
+        return obj1[kMatchOddsKeyValue].toString().compareTo(obj2[kMatchOddsKeyValue].toString());
       });
 
       rightOddsArray.sort(([dynamic obj1, dynamic obj2]) {
-        return obj1[kMatchOddsKeyValue] > obj2[kMatchOddsKeyValue];
+        return obj1[kMatchOddsKeyValue].toString().compareTo(obj2[kMatchOddsKeyValue].toString());
       });
 
       List sortedArray = List();
